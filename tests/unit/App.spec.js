@@ -41,10 +41,21 @@ describe("Counter", () => {
     }
   );
 
-  it("shows reset-button when counters is bellow zero", async () => {
+  it("shows reset-button when counters is below zero", async () => {
     createComponent();
     wrapper.vm.counter = -1;
     await wrapper.vm.$nextTick();
-    expect(wrapper.find("[data-testid=reset]").exists()).toBe(true);
+    // console.log(wrapper.html());
+    // debugger;
+    //expect(wrapper.find("[data-testid=reset]").exists()).toBe(true); // will overcome
+    expect(findButtonByText("Reset").exists()).toBe(true);
+  });
+
+  it("does not shows reset-button when counters is not below zero", async () => {
+    createComponent();
+    wrapper.vm.counter = 1;
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find("[data-testid=reset]").exists()).toBe(false);
+    //expect(findButtonByText("Reset").exists()).toBe(undefined); // will not overcome
   });
 });
