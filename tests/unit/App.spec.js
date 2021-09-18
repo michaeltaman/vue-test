@@ -7,6 +7,9 @@ describe("Counter", () => {
   const findButtonByText = (btnText) =>
     wrapper.findAll("button").wrappers.find((w) => w.text() === btnText);
 
+  // find ... -> wrapper | undefined
+  // Empty wrapper .exists() -> false
+
   const createComponent = () => {
     wrapper = mount(App);
   };
@@ -37,4 +40,11 @@ describe("Counter", () => {
       expect(wrapper.text()).toContain(expectedResult);
     }
   );
+
+  it("shows reset-button when counters is bellow zero", async () => {
+    createComponent();
+    wrapper.vm.counter = -1;
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find("[data-testid=reset]").exists()).toBe(true);
+  });
 });

@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-   {{ counter }}
-   <button @click="counter += 1">+</button>
-   <button @click="counter -= 1">-</button>
+    {{ counter }}
+    <button @click="counter += 1">+</button>
+    <button @click="counter -= 1">-</button>
+    <button data-testid="reset" v-if="counter < 0" @click="counrer = 0">Reset</button>
   </div>
 </template>
 
@@ -11,7 +12,7 @@
 export default {
   name: "App",
   data() {
-    return {counter: 0};
+    return { counter: 0 };
   },
 };
 </script>
