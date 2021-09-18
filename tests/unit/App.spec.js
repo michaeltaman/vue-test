@@ -42,17 +42,19 @@ describe("Counter", () => {
   );
 
   it("shows reset-button when counters is below zero", async () => {
+    //Arrange
     createComponent();
-    wrapper.vm.counter = -1;
     await wrapper.vm.$nextTick();
-    // console.log(wrapper.html());
-    // debugger;
-    //expect(wrapper.find("[data-testid=reset]").exists()).toBe(true); // will overcome
-    expect(findButtonByText("Reset").exists()).toBe(true);
+    await findButtonByText("-").trigger("click");
+
+    await wrapper.vm.$nextTick();
+    expect(wrapper.find("[data-testid=reset]").exists()).toBe(true);
   });
 
   it("does not shows reset-button when counters is not below zero", async () => {
     createComponent();
+    // it is bag practice externaly change state of the component
+    // See example above need to do
     wrapper.vm.counter = 1;
     await wrapper.vm.$nextTick();
     expect(wrapper.find("[data-testid=reset]").exists()).toBe(false);
