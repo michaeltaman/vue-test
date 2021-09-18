@@ -1,12 +1,11 @@
 import App from "@/App.vue";
 import { mount } from "@vue/test-utils";
-//import {nextTick } from "vue";
 
 describe("Counter", () => {
   let wrapper;
 
-  const findPlusButton = () =>
-    wrapper.findAll("button").wrappers.find((w) => w.text() === "+");
+  const findButtonByText = (btnText) =>
+    wrapper.findAll("button").wrappers.find((w) => w.text() === btnText);
 
   const createComponent = () => {
     wrapper = mount(App);
@@ -26,11 +25,16 @@ describe("Counter", () => {
     expect(wrapper.text()).toContain("0");
   });
 
-  it("increments by one when + button clicked", async () => {
-    createComponent();
-    await findPlusButton().trigger("click"); //newest approach requires  await
-    //await nextTick();
-    //await wrapper.vm.$nextTick();
-    expect(wrapper.text()).toContain("1");
-  });
+  it.each`
+    buttonText | change                   | expectedResult
+    ${"+"}     | ${"increments by one"}   | ${"1"}
+    ${"-"}     | ${"deincrements by one"} | ${"-1"}
+  `(
+    "$change when $buttonText button clicked",
+    async ({ buttonText, expectedResult }) => {
+      createComponent();
+      await findButtonByText(buttonText).trigger("click");
+      expect(wrapper.text()).toContain(expectedResult);
+    }
+  );
 });
